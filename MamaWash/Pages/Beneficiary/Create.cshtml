@@ -1,5 +1,5 @@
 ﻿@page
-@model MamaWash.Pages.Beneficiaries.CreateModel
+@model MamaWash.Pages.Beneficiary.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -15,12 +15,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Beneficiaries.AccountNumber" class="control-label"></label>
-                <input asp-for="Beneficiaries.AccountNumber" class="form-control" />
+                <input type="number" asp-for="Beneficiaries.AccountNumber" class="form-control" />
                 <span asp-validation-for="Beneficiaries.AccountNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Beneficiaries.BankID" class="control-label"></label>
-                <input asp-for="Beneficiaries.BankID" class="form-control" />
+                <label asp-for="Beneficiaries.BankName" class="control-label"></label>
+                <select asp-for="Beneficiaries.BankName" asp-items="@Model.Banks">
+                    <option value="">@Model.Banks.Skip(1).First().Text</option>
+                </select>
                 <span asp-validation-for="Beneficiaries.BankID" class="text-danger"></span>
             </div>
             <div class="form-group">

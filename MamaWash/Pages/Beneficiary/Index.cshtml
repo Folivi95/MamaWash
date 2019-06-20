@@ -1,5 +1,5 @@
 ﻿@page
-@model MamaWash.Pages.Beneficiaries.IndexModel
+@model MamaWash.Pages.Beneficiary.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -22,6 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Beneficiaries[0].BankID)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beneficiaries[0].RecipientCode)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BankID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecipientCode)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

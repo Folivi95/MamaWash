@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MamaWash.Models;
 
-namespace MamaWash.Pages.Beneficiaries
+namespace MamaWash.Pages.Beneficiary
 {
     public class DetailsModel : PageModel
     {
