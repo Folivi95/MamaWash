@@ -9,9 +9,14 @@ namespace MamaWash.Models
 {
     public class AccountValidation
     {
-        [Required, StringLength(10)]
-        public string AccountNumber { get; set; }
-        public string BankCode { get; set; }
+        public bool status { get; set; }
+        public string message { get; set; }
+        public AccDetails data { get; set; }
+    }
 
+    public class AccDetails
+    {
+        public string account_number { get; set; }
+        public string account_name { get; set; }
     }
 }

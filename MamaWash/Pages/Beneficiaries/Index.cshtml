@@ -1,5 +1,5 @@
 ﻿@page
-@model MamaWash.Pages.Beneficiary.IndexModel
+@model MamaWash.Pages.Beneficiaries.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,22 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries[0].AccountNumber)
+                @Html.DisplayNameFor(model => model.Beneficiary[0].AccountNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries[0].AccountName)
+                @Html.DisplayNameFor(model => model.Beneficiary[0].AccountName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries[0].BankID)
+                @Html.DisplayNameFor(model => model.Beneficiary[0].Bank)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiaries[0].RecipientCode)
+                @Html.DisplayNameFor(model => model.Beneficiary[0].RecipientCode)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Beneficiaries) {
+@foreach (var item in Model.Beneficiary) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.AccountName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BankID)
+                @Html.DisplayFor(modelItem => item.Bank.ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RecipientCode)

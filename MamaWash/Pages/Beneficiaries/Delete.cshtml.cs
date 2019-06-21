@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MamaWash.Models;
 
-namespace MamaWash.Pages.Beneficiary
+namespace MamaWash.Pages.Beneficiaries
 {
     public class DeleteModel : PageModel
     {
@@ -19,7 +19,7 @@ namespace MamaWash.Pages.Beneficiary
         }
 
         [BindProperty]
-        public Beneficiaries Beneficiaries { get; set; }
+        public Beneficiary Beneficiary { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,9 +28,10 @@ namespace MamaWash.Pages.Beneficiary
                 return NotFound();
             }
 
-            Beneficiaries = await _context.Beneficiaries.FirstOrDefaultAsync(m => m.ID == id);
+            Beneficiary = await _context.Beneficiaries
+                .Include(b => b.Bank).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Beneficiaries == null)
+            if (Beneficiary == null)
             {
                 return NotFound();
             }
@@ -44,11 +45,11 @@ namespace MamaWash.Pages.Beneficiary
                 return NotFound();
             }
 
-            Beneficiaries = await _context.Beneficiaries.FindAsync(id);
+            Beneficiary = await _context.Beneficiaries.FindAsync(id);
 
-            if (Beneficiaries != null)
+            if (Beneficiary != null)
             {
-                _context.Beneficiaries.Remove(Beneficiaries);
+                _context.Beneficiaries.Remove(Beneficiary);
                 await _context.SaveChangesAsync();
             }
 

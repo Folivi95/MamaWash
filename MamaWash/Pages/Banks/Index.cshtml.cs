@@ -29,12 +29,13 @@ namespace MamaWash.Pages.Banks
         public async Task OnGetAsync()
         {
             var client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
             //get list of banks
             if (await _context.BankList.CountAsync() < 1)
             {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
+                
                 var responseData = await client.GetStringAsync("https://api.paystack.co/bank");
                 BankGetRequest res = JsonConvert.DeserializeObject<BankGetRequest>(responseData);
 
@@ -49,9 +50,9 @@ namespace MamaWash.Pages.Banks
             BankList = await _context.BankList.ToListAsync();
 
             //get account balance and display it
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
+            //client.DefaultRequestHeaders.Accept.Clear();
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
             var response = await client.GetStringAsync("https://api.paystack.co/balance");
             var row = JsonConvert.DeserializeObject<BalanceData>(response);
 

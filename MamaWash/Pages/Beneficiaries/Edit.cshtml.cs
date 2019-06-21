@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MamaWash.Models;
 
-namespace MamaWash.Pages.Beneficiary
+namespace MamaWash.Pages.Beneficiaries
 {
     public class EditModel : PageModel
     {
@@ -20,7 +20,7 @@ namespace MamaWash.Pages.Beneficiary
         }
 
         [BindProperty]
-        public Beneficiaries Beneficiaries { get; set; }
+        public Beneficiary Beneficiary { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +29,14 @@ namespace MamaWash.Pages.Beneficiary
                 return NotFound();
             }
 
-            Beneficiaries = await _context.Beneficiaries.FirstOrDefaultAsync(m => m.ID == id);
+            Beneficiary = await _context.Beneficiaries
+                .Include(b => b.Bank).FirstOrDefaultAsync(m => m.ID == id);
 
-            if (Beneficiaries == null)
+            if (Beneficiary == null)
             {
                 return NotFound();
             }
+           ViewData["BankID"] = new SelectList(_context.BankList, "ID", "ID");
             return Page();
         }
 
@@ -45,7 +47,7 @@ namespace MamaWash.Pages.Beneficiary
                 return Page();
             }
 
-            _context.Attach(Beneficiaries).State = EntityState.Modified;
+            _context.Attach(Beneficiary).State = EntityState.Modified;
 
             try
             {
@@ -53,7 +55,7 @@ namespace MamaWash.Pages.Beneficiary
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BeneficiariesExists(Beneficiaries.ID))
+                if (!BeneficiaryExists(Beneficiary.ID))
                 {
                     return NotFound();
                 }
@@ -66,7 +68,7 @@ namespace MamaWash.Pages.Beneficiary
             return RedirectToPage("./Index");
         }
 
-        private bool BeneficiariesExists(int id)
+        private bool BeneficiaryExists(int id)
         {
             return _context.Beneficiaries.Any(e => e.ID == id);
         }

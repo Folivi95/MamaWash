@@ -8,7 +8,6 @@ namespace MamaWash.Models
 {
     public class BankList
     {
-        
         public int ID { get; set; }
         public string BankCode { get; set; }
         public string Bank { get; set; }

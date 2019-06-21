@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MamaWash.Models;
 
-namespace MamaWash.Pages.Beneficiary
+namespace MamaWash.Pages.Beneficiaries
 {
     public class IndexModel : PageModel
     {
@@ -18,11 +18,12 @@ namespace MamaWash.Pages.Beneficiary
             _context = context;
         }
 
-        public IList<Beneficiaries> Beneficiaries { get;set; }
+        public IList<Beneficiary> Beneficiary { get;set; }
 
         public async Task OnGetAsync()
         {
-            Beneficiaries = await _context.Beneficiaries.ToListAsync();
+            Beneficiary = await _context.Beneficiaries
+                .Include(b => b.Bank).ToListAsync();
         }
     }
 }

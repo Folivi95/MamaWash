@@ -34,7 +34,7 @@ namespace MamaWash.Migrations
                     b.ToTable("BankList");
                 });
 
-            modelBuilder.Entity("MamaWash.Models.Beneficiaries", b =>
+            modelBuilder.Entity("MamaWash.Models.Beneficiary", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -45,21 +45,15 @@ namespace MamaWash.Migrations
                     b.Property<int>("AccountNumber")
                         .HasMaxLength(10);
 
-                    b.Property<int?>("BankCodeID");
-
-                    b.Property<string>("BankID");
-
-                    b.Property<int?>("BankNameID");
+                    b.Property<int>("BankID");
 
                     b.Property<string>("RecipientCode");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BankCodeID");
+                    b.HasIndex("BankID");
 
-                    b.HasIndex("BankNameID");
-
-                    b.ToTable("Beneficiaries");
+                    b.ToTable("Beneficiary");
                 });
 
             modelBuilder.Entity("MamaWash.Models.TransactionHistory", b =>
@@ -77,20 +71,17 @@ namespace MamaWash.Migrations
                     b.ToTable("TransactionHistory");
                 });
 
-            modelBuilder.Entity("MamaWash.Models.Beneficiaries", b =>
+            modelBuilder.Entity("MamaWash.Models.Beneficiary", b =>
                 {
-                    b.HasOne("MamaWash.Models.BankList", "BankCode")
+                    b.HasOne("MamaWash.Models.BankList", "Bank")
                         .WithMany()
-                        .HasForeignKey("BankCodeID");
-
-                    b.HasOne("MamaWash.Models.BankList", "BankName")
-                        .WithMany()
-                        .HasForeignKey("BankNameID");
+                        .HasForeignKey("BankID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MamaWash.Models.TransactionHistory", b =>
                 {
-                    b.HasOne("MamaWash.Models.Beneficiaries")
+                    b.HasOne("MamaWash.Models.Beneficiary")
                         .WithMany("Transactions")
                         .HasForeignKey("BeneficiariesID");
                 });

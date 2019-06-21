@@ -1,0 +1,43 @@
+﻿@page
+@model MamaWash.Pages.Beneficiaries.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Beneficiary</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beneficiary.AccountNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beneficiary.AccountNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beneficiary.AccountName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beneficiary.AccountName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beneficiary.Bank)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beneficiary.Bank.ID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Beneficiary.RecipientCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Beneficiary.RecipientCode)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Beneficiary.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
