@@ -1,0 +1,68 @@
+﻿@page
+@model MamaWash.Pages.Transfers.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Transfer</h4>
+<hr />
+
+@*if transaction fails*@
+@if (Model.FailedAlert)
+{
+    <div class="alert alert-danger" role="alert">
+        Transaction Failed
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Transfer.Recipient" class="control-label"></label>
+                <select asp-for="Transfer.Recipient.RecipientCode" class="form-control" asp-items="ViewBag.Recipients"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Transfer.Amount" class="control-label"></label>
+                <input asp-for="Transfer.Amount" class="form-control" placeholder="Amount in Naira" />
+                <span asp-validation-for="Transfer.Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Transfer.Source" class="form-control" value="balance" hidden />
+            </div>
+            <div class="form-group">
+                <label asp-for="Transfer.Reason" class="control-label"></label>
+                <input asp-for="Transfer.Reason" class="form-control" />
+                <span asp-validation-for="Transfer.Reason" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Transfer.PIN" class="control-label"></label>
+                <input asp-for="Transfer.PIN" class="form-control" placeholder="PIN is 1234 for test purpose" />
+                @*if pin is wrong*@
+                @if (Model.InvalidPIN)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        Wrong PIN
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

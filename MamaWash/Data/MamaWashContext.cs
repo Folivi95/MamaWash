@@ -18,13 +18,13 @@ namespace MamaWash.Models
 
         public DbSet<MamaWash.Models.Beneficiary> Beneficiaries { get; set; }
 
-        public DbSet<MamaWash.Models.Transaction> Transaction { get; set; }
+        public DbSet<MamaWash.Models.Transfer> Transaction { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BankList>().ToTable("BankList");
             modelBuilder.Entity<Beneficiary>().ToTable("Beneficiaries");
-            modelBuilder.Entity<Transaction>().ToTable("Transaction");
+            modelBuilder.Entity<Transfer>().ToTable("Transfer");
         }
 
     }
