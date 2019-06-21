@@ -14,9 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiary[0].ID)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Beneficiary[0].AccountNumber)
             </th>
             <th>
@@ -31,9 +28,6 @@
     <tbody>
 @foreach (var item in Model.Beneficiary) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
             </td>

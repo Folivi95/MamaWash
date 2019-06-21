@@ -14,9 +14,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Transfer[0].ID)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Transfer[0].Name)
             </th>
             <th>
@@ -40,9 +37,6 @@
 @foreach (var item in Model.Transfer) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
@@ -52,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.BankName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+               NGN @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Reason)

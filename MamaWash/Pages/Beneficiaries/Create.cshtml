@@ -10,13 +10,6 @@
 <h4>Beneficiary</h4>
 <hr />
 
-@*if transaction fails*@
-@if (Model.FailedAlert)
-{
-    <div class="alert alert-danger" role="alert">
-        Transaction Failed
-    </div>
-}
 <div class="row">
     <div class="col-md-4">
         <form method="post">

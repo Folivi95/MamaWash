@@ -15,8 +15,8 @@ namespace MamaWash.Models
         public string Source { get; set; }
         public string Reason { get; set; }
         [Required]
-        public Beneficiary Recipient { get; set; }
-        [Required, DataType(DataType.Currency)]
+        public string Recipient { get; set; }
+        [Required]
         public decimal Amount { get; set; }
         public string Name { get; set; }
         [Display(Name = "Account Number")]

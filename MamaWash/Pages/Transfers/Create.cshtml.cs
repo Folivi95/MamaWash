@@ -21,16 +21,13 @@ namespace MamaWash.Pages.Transfers
         }
 
         public Beneficiary beneficiary { get; set; }
-        //check status to display failed alert
-        public bool FailedAlert { get; set; } = false;
-        public bool InvalidPIN { get; set; } = false;
         //bind values from posted form
         [BindProperty]
         public Transfer Transfer { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-
+            beneficiary = new Beneficiary();
             List<Beneficiary> recipient = new List<Beneficiary>();
 
             //get recipients
@@ -47,7 +44,7 @@ namespace MamaWash.Pages.Transfers
                     //get values to set form fields.
                     beneficiary.RecipientCode = item.recipient_code;
                     //populate select list
-                    recipient.Add(new Beneficiary { RecipientCode = item.recipient_code, AccountName = item.name + " - " + item.details.account_number });
+                    recipient.Add(new Beneficiary { RecipientCode = item.recipient_code, AccountName = item.name + " - " + item.details.account_number +"( "+item.details.bank_name+")"});
                     //populate form fields
                     ViewData["Recipients"] = new SelectList(recipient, "RecipientCode", "AccountName");
                 }
@@ -71,8 +68,8 @@ namespace MamaWash.Pages.Transfers
             if (Transfer.PIN == 1234)
             {
                 //make transfer request
-                string content = $"{{\"source\":\"{Transfer.Source}\",\"reason\":\"{Transfer.Reason}\",\"amount\":\"{Transfer.Amount * 100}\",\"recipient\":\"{Transfer.Recipient}\"}}";
-                HttpResponseMessage transferRes = await client.PostAsync("https://api.paystack.co/transferrecipient", new StringContent(content));
+                string content = $"{{\"source\":\"{Transfer.Source}\",\"reason\":\"{Transfer.Reason}\",\"amount\":{Transfer.Amount * 100},\"recipient\":\"{Transfer.Recipient}\"}}";
+                HttpResponseMessage transferRes = await client.PostAsync("https://api.paystack.co/transfer", new StringContent(content));
                 //check if request is successful
                 if (transferRes.IsSuccessStatusCode)
                 {
@@ -81,13 +78,11 @@ namespace MamaWash.Pages.Transfers
                 }
                 else
                 {
-                    FailedAlert = true;
                     return RedirectToPage("./Create");
                 }
             }
             else
             {
-                InvalidPIN = true;
                 return RedirectToPage("./Create");
             }
 

@@ -20,8 +20,6 @@ namespace MamaWash.Pages.Beneficiaries
             _context = context;
         }
 
-        //display failure alert
-        public bool FailedAlert { get; set; } = false;
         public string AccountName { get; set; }
         public string RecipientCode { get; set; }
         [BindProperty]
@@ -29,7 +27,6 @@ namespace MamaWash.Pages.Beneficiaries
 
         public async Task<IActionResult> OnGetAsync()
         {
-
             List<BankList> banks = new List<BankList>();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -48,7 +45,6 @@ namespace MamaWash.Pages.Beneficiaries
 
         public async Task<IActionResult> OnPostAsync()
         {
-
             if (!ModelState.IsValid)
             {
                 return RedirectToPage("./Create");
@@ -73,7 +69,6 @@ namespace MamaWash.Pages.Beneficiaries
             }
             else
             {
-                FailedAlert = true;
                 return RedirectToPage("./Create");
             }
 
