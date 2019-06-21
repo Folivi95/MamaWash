@@ -15,7 +15,6 @@ namespace MamaWash.Models
         public string AccountNumber { get; set; }
         [Display(Name ="Account Name")]
         public string AccountName { get; set; }
-        public int BankID { get; set; }
         public BankList Bank { get; set; }
         public string RecipientCode { get; set; }
     }

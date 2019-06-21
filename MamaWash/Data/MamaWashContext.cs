@@ -9,7 +9,7 @@ namespace MamaWash.Models
 {
     public class MamaWashContext : DbContext
     {
-        public MamaWashContext (DbContextOptions<MamaWashContext> options)
+        public MamaWashContext(DbContextOptions<MamaWashContext> options)
             : base(options)
         {
         }
@@ -20,5 +20,14 @@ namespace MamaWash.Models
 
         public DbSet<MamaWash.Models.Transaction> Transaction { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BankList>().ToTable("BankList");
+            modelBuilder.Entity<Beneficiary>().ToTable("Beneficiaries");
+            modelBuilder.Entity<Transaction>().ToTable("Transaction");
+        }
+
     }
+
+
 }

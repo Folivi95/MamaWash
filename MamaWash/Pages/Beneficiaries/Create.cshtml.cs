@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -12,15 +14,28 @@ namespace MamaWash.Pages.Beneficiaries
     public class CreateModel : PageModel
     {
         private readonly MamaWash.Models.MamaWashContext _context;
+        private readonly HttpClient client = new HttpClient();
 
         public CreateModel(MamaWash.Models.MamaWashContext context)
         {
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["Banks"] = new SelectList(_context.BankList, "BankCode", "Bank");
+            List<BankList> banks = new List<BankList>();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
+            //get list of banks
+            var responseData = await client.GetStringAsync("https://api.paystack.co/bank");
+            BankGetRequest res = JsonConvert.DeserializeObject<BankGetRequest>(responseData);
+
+            foreach (BankItem item in res.data)
+            {
+                banks.Add(new BankList { BankCode = item.code, Bank = item.name });
+            }
+            ViewData["Banks"] = new SelectList(banks, "BankCode", "Bank");
             return Page();
         }
 
@@ -31,13 +46,13 @@ namespace MamaWash.Pages.Beneficiaries
 
         public async Task<IActionResult> OnPostAsync()
         {
+            
             if (!ModelState.IsValid)
             {
                 return RedirectToPage("./Create");
             }
 
             //validate account details
-            HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization",
@@ -67,19 +82,22 @@ namespace MamaWash.Pages.Beneficiaries
             //check if request is successful
             if (recipientRes.IsSuccessStatusCode)
             {
-                var recipientData = await recipientRes.Content.ReadAsStringAsync();
-                var recipient = JsonConvert.DeserializeObject<CreateRecipient>(recipientData);
-                RecipientCode = recipient.data.recipient_code;
+                return RedirectToPage("./Index");
             }
             else
             {
                 return RedirectToPage("./Create");
             }
 
-            _context.Beneficiaries.Add(Beneficiary);
-            await _context.SaveChangesAsync();
+            //var beneficiary = new Beneficiary {
+            //    AccountName = AccountName,
+            //    AccountNumber = Beneficiary.AccountNumber,
+            //    RecipientCode = RecipientCode,
+            //    Bank = Beneficiary.Bank};
 
-            return RedirectToPage("./Create");
+            //save new beneficiary details to database
+            //_context.Beneficiaries.Add(beneficiary);
+            //await _context.SaveChangesAsync();
         }
     }
 }

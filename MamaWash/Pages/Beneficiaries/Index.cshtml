@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Beneficiary[0].AccountName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Beneficiary[0].Bank)
+                @Html.DisplayNameFor(model => model.Beneficiary[0].Bank.Bank)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Beneficiary[0].RecipientCode)
@@ -38,7 +38,7 @@
                 @Html.DisplayFor(modelItem => item.AccountName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Bank.ID)
+                @Html.DisplayFor(modelItem => item.Bank.Bank)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.RecipientCode)
