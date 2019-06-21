@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace MamaWash.Models
 {
-    [Serializable]
     public class CreateRecipient
     {
         public bool status { get; set; }
@@ -14,8 +13,6 @@ namespace MamaWash.Models
         public Recipient data { get; set; }
     }
 
-
-    [Serializable]
     public class Recipient
     {
         public string recipient_code { get; set; }

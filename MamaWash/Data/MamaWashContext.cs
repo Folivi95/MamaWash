@@ -18,5 +18,7 @@ namespace MamaWash.Models
 
         public DbSet<MamaWash.Models.Beneficiary> Beneficiaries { get; set; }
 
+        public DbSet<MamaWash.Models.Transaction> Transaction { get; set; }
+
     }
 }
