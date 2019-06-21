@@ -14,6 +14,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Beneficiary[0].ID)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Beneficiary[0].AccountNumber)
             </th>
             <th>
@@ -22,15 +25,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Beneficiary[0].Bank.Bank)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beneficiary[0].RecipientCode)
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.Beneficiary) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AccountNumber)
             </td>
@@ -39,14 +42,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Bank.Bank)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecipientCode)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }

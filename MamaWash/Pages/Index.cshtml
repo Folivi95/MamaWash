@@ -5,6 +5,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome To Mama Wash</h1>
+    <p>Click <a asp-page="/Balance/Index" href="https://docs.microsoft.com/aspnet/core">here</a> to view balance on Paystack.</p>
+
+    <p>
+        <h3>Make Transfers using the following steps:</h3> 
+        <ol>
+            <li>Add Beneficiaries by clicking <a asp-page="/Beneficiaries/Create">here</a>.</li>
+            <li>Transfer After Adding Beneficiary by clicking <a asp-page="/Transfers/Create"></a>. </li>
+            <li>Click <a asp-page="/Transfers/Index">here</a> to view transactions.</li>
+        </ol>
+    </p>
 </div>

@@ -9,6 +9,14 @@
 
 <h4>Beneficiary</h4>
 <hr />
+
+@*if transaction fails*@
+@if (Model.FailedAlert)
+{
+    <div class="alert alert-danger" role="alert">
+        Transaction Failed
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <form method="post">
@@ -25,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Beneficiary.Bank.Bank" class="control-label"></label>
-                <select asp-for="Beneficiary.Bank.BankCode" class ="form-control" asp-items="ViewBag.Banks"></select>
+                <select asp-for="Beneficiary.Bank.BankCode" class="form-control" asp-items="ViewBag.Banks"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

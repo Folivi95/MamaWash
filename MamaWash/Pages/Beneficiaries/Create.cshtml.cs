@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -21,14 +20,22 @@ namespace MamaWash.Pages.Beneficiaries
             _context = context;
         }
 
+        //display failure alert
+        public bool FailedAlert { get; set; } = false;
+        public string AccountName { get; set; }
+        public string RecipientCode { get; set; }
+        [BindProperty]
+        public Beneficiary Beneficiary { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
+
             List<BankList> banks = new List<BankList>();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
             //get list of banks
-            var responseData = await client.GetStringAsync("https://api.paystack.co/bank");
+            string responseData = await client.GetStringAsync("https://api.paystack.co/bank");
             BankGetRequest res = JsonConvert.DeserializeObject<BankGetRequest>(responseData);
 
             foreach (BankItem item in res.data)
@@ -39,14 +46,9 @@ namespace MamaWash.Pages.Beneficiaries
             return Page();
         }
 
-        public string AccountName { get; set; }
-        public string RecipientCode { get; set; }
-        [BindProperty]
-        public Beneficiary Beneficiary { get; set; }
-
         public async Task<IActionResult> OnPostAsync()
         {
-            
+
             if (!ModelState.IsValid)
             {
                 return RedirectToPage("./Create");
@@ -58,10 +60,10 @@ namespace MamaWash.Pages.Beneficiaries
             client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization",
                 "Bearer sk_test_f075718722a05eb8182c77beb0279ebe1d2249d2");
 
-            var request = string.Format($"https://api.paystack.co/bank/resolve?account_number={Beneficiary.AccountNumber}&bank_code={Beneficiary.Bank.BankCode}");
+            string request = string.Format($"https://api.paystack.co/bank/resolve?account_number={Beneficiary.AccountNumber}&bank_code={Beneficiary.Bank.BankCode}");
 
             //get response
-            var resDataStream = await client.GetAsync(request);
+            HttpResponseMessage resDataStream = await client.GetAsync(request);
             //check if account details are valid
             if (resDataStream.IsSuccessStatusCode)
             {
@@ -71,13 +73,14 @@ namespace MamaWash.Pages.Beneficiaries
             }
             else
             {
+                FailedAlert = true;
                 return RedirectToPage("./Create");
             }
 
 
             //create recipient after validating account details
             string content = $"{{\"type\":\"nuban\",\"name\":\"{AccountName}\",\"description\":\"{Beneficiary.AccountName}\",\"account_number\":\"{Beneficiary.AccountNumber}\",\"bank_code\":\"{Beneficiary.Bank.BankCode}\",\"currency\":\"NGN\"}}";
-            var recipientRes = await client.PostAsync("https://api.paystack.co/transferrecipient", new StringContent(content));
+            HttpResponseMessage recipientRes = await client.PostAsync("https://api.paystack.co/transferrecipient", new StringContent(content));
 
             //check if request is successful
             if (recipientRes.IsSuccessStatusCode)
@@ -88,16 +91,6 @@ namespace MamaWash.Pages.Beneficiaries
             {
                 return RedirectToPage("./Create");
             }
-
-            //var beneficiary = new Beneficiary {
-            //    AccountName = AccountName,
-            //    AccountNumber = Beneficiary.AccountNumber,
-            //    RecipientCode = RecipientCode,
-            //    Bank = Beneficiary.Bank};
-
-            //save new beneficiary details to database
-            //_context.Beneficiaries.Add(beneficiary);
-            //await _context.SaveChangesAsync();
         }
     }
 }

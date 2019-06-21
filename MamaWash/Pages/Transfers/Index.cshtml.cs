@@ -1,7 +1,6 @@
 ﻿using MamaWash.Models;
 using MamaWash.Models.ResponseVM;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;

@@ -22,17 +22,14 @@ namespace MamaWash.Pages.Transfers
 
         public Beneficiary beneficiary { get; set; }
         //check status to display failed alert
-        public bool FailedAlert { get; set; }
-        public bool InvalidPIN { get; set; }
+        public bool FailedAlert { get; set; } = false;
+        public bool InvalidPIN { get; set; } = false;
         //bind values from posted form
         [BindProperty]
         public Transfer Transfer { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //set default values for failed alert and invalid pin alert
-            FailedAlert = false;
-            InvalidPIN = false;
 
             List<Beneficiary> recipient = new List<Beneficiary>();
 
@@ -90,7 +87,7 @@ namespace MamaWash.Pages.Transfers
             }
             else
             {
-
+                InvalidPIN = true;
                 return RedirectToPage("./Create");
             }
 
